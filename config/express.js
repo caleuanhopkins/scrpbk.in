@@ -22,7 +22,9 @@ var fs = require('fs'),
 	flash = require('connect-flash'),
 	config = require('./config'),
 	consolidate = require('consolidate'),
-	path = require('path');
+	path = require('path'),
+	multer  = require('multer'),
+	done = false;
 
 module.exports = function(db) {
 	// Initialize express app
@@ -118,6 +120,19 @@ module.exports = function(db) {
 	// connect flash for flash messages
 	app.use(flash());
 
+	app.use(multer({ dest: './uploads/',
+		rename: function (fieldname, filename) {
+			return filename+Date.now();
+		},
+		onFileUploadStart: function (file) {
+			console.log(file.originalname + ' is starting ...')
+		},
+		onFileUploadComplete: function (file, req, res) {
+			console.log(file.fieldname + ' uploaded to  ' + file.path)
+			req.done = true;
+		}
+	}));
+
 	// Globbing routing files
 	config.getGlobbedFiles('./app/routes/**/*.js').forEach(function(routePath) {
 		require(path.resolve(routePath))(app);
@@ -144,6 +159,15 @@ module.exports = function(db) {
 			error: 'Not Found'
 		});
 	});
+
+	/*app.use(function (req, res, next) {
+
+		// Assign the config to the req object
+		req.done = true;
+
+		// Call the next function in the pipeline (your controller actions).
+
+	});*/
 
 	if (process.env.NODE_ENV === 'secure') {
 		// Load SSL key and certificate

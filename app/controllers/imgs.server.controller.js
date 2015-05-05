@@ -12,18 +12,10 @@ var mongoose = require('mongoose'),
  * Create a scrpbk
  */
 exports.create = function(req, res) {
-	var img = new img(req.body);
-	img.user = req.user;
-
-	img.save(function(err) {
-		if (err) {
-			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
-			});
-		} else {
-			res.json(img);
-		}
-	});
+	  if(req.done==true){
+	    console.log(req.files);
+	    res.end("File uploaded.");
+	  }
 };
 
 /**

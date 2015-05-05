@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('users').controller('DashboardController', ['$scope', '$http', '$location', 'Users', 'Authentication',
-	function($scope, $http, $location, Authentication) {
-		$scope.authentication = Authentication;
+	function($scope, $http, $location, Users, Authentication) {
+		$scope.user = Authentication.user;
 
-		// If user is signed in then redirect back home
-		if ($scope.authentication.user) $location.path('/');
+		// If user is not signed in then redirect back home
+		if (!$scope.user) $location.path('/');
 
 	}
 ]);

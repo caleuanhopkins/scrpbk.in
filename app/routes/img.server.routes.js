@@ -8,6 +8,7 @@ var users = require('../../app/controllers/users.server.controller'),
 	img = require('../../app/controllers/imgs.server.controller');
 
 module.exports = function(app) {
+	//console.log(app.done);
 	// Article Routes
 	app.route('/imgs')
 		.get(img.list)
