@@ -25,12 +25,12 @@ var ImgsSchema = new Schema({
 	}
 });
 
-ImgsSchema.pre('save', function(next) {
+/*ImgsSchema.pre('save', function(next) {
 	if (!this.uri) {
 		this.uri = '123';
 	}
 
 	next();
-});
+});*/
 
 mongoose.model('Imgs', ImgsSchema);

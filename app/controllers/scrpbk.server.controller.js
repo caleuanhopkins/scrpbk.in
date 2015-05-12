@@ -73,6 +73,7 @@ exports.delete = function(req, res) {
  * List of Scrpbks
  */
 exports.list = function(req, res) {
+	console.log('hello world');
 	Scrpbk.find().sort('-created').populate('user', 'displayName').exec(function(err, scrpbks) {
 		if (err) {
 			return res.status(400).send({

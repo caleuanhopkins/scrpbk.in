@@ -4,7 +4,6 @@
  * Module dependencies.
  */
 var users = require('../../app/controllers/users.server.controller'),
-	scrpbk = require('../../app/controllers/scrpbk.server.controller'),
 	img = require('../../app/controllers/imgs.server.controller');
 
 module.exports = function(app) {

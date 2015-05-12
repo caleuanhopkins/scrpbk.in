@@ -1,1 +1,21 @@
-<h1>list</h1>
+<section data-ng-controller="ImgsController" data-ng-init="find()">
+	<div class="page-header">
+		<h1>Images</h1>
+	</div>
+	<div class="list-group">
+		<a data-ng-repeat="img in imgs" data-ng-href="#!/imgs/{{img._id}}" class="list-group-item">
+			<img src="/{{ img.uri }}" />
+			<small class="list-group-item-text">
+				Posted on
+				<span data-ng-bind="img.created | date:'mediumDate'"></span>
+				by
+				<span data-ng-bind="img.user.displayName"></span>
+			</small>
+			<h4 class="list-group-item-heading" data-ng-bind="img.path"></h4>
+			<p class="list-group-item-text" data-ng-bind="img.uri"></p>
+		</a>
+	</div>
+	<div class="alert alert-warning text-center" data-ng-if="imgs.$resolved && !imgs.length">
+		No images yet, why don't you <a href="/#!/imgs/create">upload one</a>?
+	</div>
+</section>

@@ -120,7 +120,7 @@ module.exports = function(db) {
 	// connect flash for flash messages
 	app.use(flash());
 
-	app.use(multer({ dest: './uploads/',
+	app.use(multer({ dest: './public/uploads/',
 		rename: function (fieldname, filename) {
 			return filename+Date.now();
 		},
@@ -128,8 +128,8 @@ module.exports = function(db) {
 			console.log(file.originalname + ' is starting ...')
 		},
 		onFileUploadComplete: function (file, req, res) {
-			console.log(file.fieldname + ' uploaded to  ' + file.path)
 			req.done = true;
+			req.file = file;
 		}
 	}));
 

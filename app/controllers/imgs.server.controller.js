@@ -6,16 +6,34 @@
 var mongoose = require('mongoose'),
 	errorHandler = require('./errors.server.controller'),
 	Img = mongoose.model('Imgs'),
-	_ = require('lodash');
+	_ = require('lodash'),
+	User = mongoose.model('User');
 
 /**
  * Create a scrpbk
  */
 exports.create = function(req, res) {
-	  if(req.done==true){
-	    console.log(req.files);
-	    res.end("File uploaded.");
-	  }
+	if(req.done==true){
+		/*var user = req.user;
+		var file = req.file;
+		var uri = encodeURIComponent(req.file.path.replace('public/', '/'));*/
+		//var img = new Img({ user: user, uri: uri});
+		
+		var img = new Img(req.body);
+		var uri = encodeURIComponent(req.file.path.replace('public/', '/'));
+		img.uri = uri;
+		img.user = req.user;
+
+		img.save(function(err) {
+			if (err) {
+				return res.status(400).send({
+					message: errorHandler.getErrorMessage(err)
+				});
+			} else {
+				res.json(img);
+			}
+		});
+	}
 };
 
 /**
