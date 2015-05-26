@@ -13,6 +13,9 @@ module.exports = function(app) {
 		.get(img.list)
 		.post(users.requiresLogin, img.create);
 
+	app.route('/imgs/upload')
+		.post(users.requiresLogin, img.upload);
+
 	app.route('/imgs/:imgId')
 		.get(img.read)
 		.put(users.requiresLogin, img.hasAuthorization, img.update)

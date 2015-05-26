@@ -19,6 +19,14 @@ var ImgsSchema = new Schema({
 		default: '',
 		trim: true
 	},
+	tags: {
+		type: Array,
+		default: [],
+	},
+	scrpbk_sel: {
+		type: String,
+		default: 0
+	},	
 	user: {
 		type: Schema.ObjectId,
 		ref: 'User'

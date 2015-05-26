@@ -12,6 +12,26 @@
 					<input type="file" id="userPhoto" file-model="file">
 					<p class="help-block">Example block-level help text here.</p>
 				</div>
+				<div data-ng-controller="ScrpbksController" data-ng-init="find()">
+					<h3>Scrpbks</h3>
+					<div data-ng-repeat="scrpbk in scrpbks">
+						<div class="radio">
+						  <label>
+						  	<input type="radio" name="img.scrpbk_sel" data-ng-model="img.scrpbk_sel" value="{{ scrpbk._id }}">
+						    {{ scrpbk.title }}
+						  </label>
+						</div>
+					</div>
+					<hr/>
+					<h3>Tags</h3>
+					<ui-select multiple tagging tagging-label="(select this tag)" sortable="true" on-select="tagUpdate($item, img, add)" ng-model="img.tags" theme="bootstrap" ng-disabled="disabled" title="Choose a person" title="Start typing a tag (use commas to seperate tags) ...">
+						<ui-select-match placeholder="Start typing a tag (use commas to seperate tags) ...">{{$item}}</ui-select-match>
+						<ui-select-choices repeat="img in img.tags">
+							{{ img }}
+						</ui-select-choices>
+					</ui-select>
+					<hr/>
+	            </div>
 				<div class="form-group">
 					<button type="submit" name="submit" ng-click="create()" onclick="return false;" class="btn btn-default">upload</button>
 				</div>

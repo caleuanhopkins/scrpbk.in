@@ -55,13 +55,16 @@ angular.module('scrpbks').controller('ScrpbksController', ['$scope', '$statePara
 
 		// Find a list of Scrpbks
 		$scope.find = function() {
-			$scope.scrpbks = Scrpbks.query();
+			$scope.scrpbks = Scrpbks.query({
+				user: $scope.authentication.user._id
+			});
 		};
 
 		// Find existing Scrpbk
 		$scope.findOne = function() {
 			$scope.scrpbk = Scrpbks.get({
-				scrpbkId: $stateParams.scrpbkId
+				scrpbkId: $stateParams.scrpbkId,
+				user: $scope.authentication.user._id
 			});
 		};
 	}

@@ -125,7 +125,7 @@ module.exports = function(db) {
 			return filename+Date.now();
 		},
 		onFileUploadStart: function (file) {
-			console.log(file.originalname + ' is starting ...')
+			console.log(file.originalname + ' is starting ...');
 		},
 		onFileUploadComplete: function (file, req, res) {
 			req.done = true;

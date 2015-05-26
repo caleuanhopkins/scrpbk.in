@@ -13,26 +13,28 @@ var mongoose = require('mongoose'),
  * Create a scrpbk
  */
 exports.create = function(req, res) {
-	if(req.done==true){
-		/*var user = req.user;
-		var file = req.file;
-		var uri = encodeURIComponent(req.file.path.replace('public/', '/'));*/
-		//var img = new Img({ user: user, uri: uri});
-		
-		var img = new Img(req.body);
-		var uri = encodeURIComponent(req.file.path.replace('public/', '/'));
-		img.uri = uri;
-		img.user = req.user;
+	
+	var img = new Img(req.body);
+	console.log(req);
+	//img.uri = uri;
+	img.user = req.user;
+	//img.scrpbk = req.scrpbk_sel;
 
-		img.save(function(err) {
-			if (err) {
-				return res.status(400).send({
-					message: errorHandler.getErrorMessage(err)
-				});
-			} else {
-				res.json(img);
-			}
-		});
+	img.save(function(err) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		} else {
+			res.json(img);
+		}
+	});
+};
+
+exports.upload = function(req, res){
+	if(req.done === true){
+		var uri = encodeURIComponent(req.file.path.replace('public/', '/'));
+		res.json(uri);
 	}
 };
 

@@ -4,7 +4,7 @@
 	</div>
 	<div class="list-group">
 		<a data-ng-repeat="img in imgs" data-ng-href="#!/imgs/{{img._id}}" class="list-group-item">
-			<img src="/{{ img.uri }}" />
+			<img data-ng-src="/{{ img.uri }}" />
 			<small class="list-group-item-text">
 				Posted on
 				<span data-ng-bind="img.created | date:'mediumDate'"></span>

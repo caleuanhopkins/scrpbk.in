@@ -2,7 +2,14 @@
 	<div class="page-header">
 		<h1 data-ng-bind="img.title"></h1>
 	</div>
-		<img class="lead" src="{{img.uri}}" />
+
+	<img class="lead" data-ng-src="{{img.uri}}" />
+
+	<h3>Tags</h3>
+	<div data-ng-repeat="tag in img.tags">
+		<a href="#"><span>#{{tag}}</span></a>
+	</div>
+	<hr/>
 
 	<div class="pull-right" data-ng-show="authentication.user._id == img.user._id">
 		<a class="btn btn-primary" href="/#!/imgs/{{img._id}}/edit">

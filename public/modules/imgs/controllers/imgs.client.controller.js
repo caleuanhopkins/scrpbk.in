@@ -5,15 +5,14 @@ angular.module('imgs').controller('ImgsController', ['$scope', '$stateParams', '
 	function($scope, $stateParams, $http, $location, Authentication, Imgs, formDataObject) {
 		$scope.authentication = Authentication;
 
+		$scope.img = { scrpbk_sel: '', tags:[]};
+
 		// Create new img
 		$scope.create = function() {
 			// Create new img object
-			var img = new Imgs({
-			});
-
 			$http({
 	            method: 'POST',
-	            url: '/imgs/',
+	            url: '/imgs/upload',
 	            headers: {
 	                'Content-Type': undefined
 	            },
@@ -23,21 +22,17 @@ angular.module('imgs').controller('ImgsController', ['$scope', '$stateParams', '
 	            transformRequest: formDataObject
 	        }).
 	        then(function(result) {
-	            console.log(result.data._id);
-	            $location.path('imgs/' + result.data._id)
+	        	var img = new Imgs({
+					scrpbk_sel: $scope.img.scrpbk_sel,
+					tags: $scope.img.tags,
+					uri: JSON.parse(result.data)
+				});
+	        	img.$save(function(response) {
+					$location.path('imgs/' + response._id);
+				}, function(errorResponse) {
+					$scope.error = errorResponse.data.message;
+				});
 	        });
-
-			// Redirect after save
-			/*img.$save(function(response) {
-				console.log(response);
-				//$location.path('imgs/' + response._id);
-
-				// Clear form fields
-				$scope.title = '';
-				$scope.content = '';
-			}, function(errorResponse) {
-				$scope.error = errorResponse.data.message;
-			});*/
 		};
 
 		// Remove existing img
@@ -68,16 +63,29 @@ angular.module('imgs').controller('ImgsController', ['$scope', '$stateParams', '
 			});
 		};
 
+		$scope.findScrpbk = function() {
+			$scope.imgs = Imgs.query({
+				scprbk_sel: $stateParams.scrpbkId
+			});
+		};
+
 		// Find a list of imgs
 		$scope.find = function() {
-			$scope.imgs = Imgs.query();
+			$scope.imgs = Imgs.query({
+				user: $scope.authentication.user._id
+			});
 		};
 
 		// Find existing img
 		$scope.findOne = function() {
 			$scope.img = Imgs.get({
-				imgsId: $stateParams.imgsId
+				imgsId: $stateParams.imgsId,
+				user: $scope.authentication.user._id
 			});
 		};
 	}
 ]);
+
+var toType = function(obj) {
+	return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase()
+}
