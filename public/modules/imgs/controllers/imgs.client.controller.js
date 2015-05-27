@@ -54,13 +54,52 @@ angular.module('imgs').controller('ImgsController', ['$scope', '$stateParams', '
 
 		// Update existing img
 		$scope.update = function() {
-			var img = $scope.img;
+			/*var img = $scope.img;
 
 			img.$update(function() {
 				$location.path('imgs/' + img._id);
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
-			});
+			});*/
+			if($scope.file){
+				$http({
+		            method: 'POST',
+		            url: '/imgs/upload',
+		            headers: {
+		                'Content-Type': undefined
+		            },
+		            data: {
+		                file: $scope.file
+		            },
+		            transformRequest: formDataObject
+		        }).
+		        then(function(result) {
+		        	var img = new Imgs({
+		        		_id: img._id,
+						scrpbk_sel: $scope.img.scrpbk_sel,
+						tags: $scope.img.tags,
+						uri: JSON.parse(result.data)
+					});
+		        	img.$update(function(response) {
+						$location.path('imgs/' + response._id);
+					}, function(errorResponse) {
+						$scope.error = errorResponse.data.message;
+					});
+		        });
+	    	}else{
+    			var img = new Imgs({
+    				_id: $scope.img._id,
+					scrpbk_sel: $scope.img.scrpbk_sel,
+					tags: $scope.img.tags,
+					uri: $scope.img.uri
+				});
+	        	img.$update(function(response) {
+					$location.path('imgs/' + img._id);
+				}, function(errorResponse) {
+					$scope.error = errorResponse.data.message;
+				});
+	    	}
+
 		};
 
 		$scope.findScrpbk = function() {

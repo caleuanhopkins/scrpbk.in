@@ -7,6 +7,8 @@ var mongoose = require('mongoose'),
 	errorHandler = require('./errors.server.controller'),
 	Img = mongoose.model('Imgs'),
 	_ = require('lodash'),
+	fs = require('fs'),
+	path = require('path'),
 	User = mongoose.model('User');
 
 /**
@@ -69,6 +71,13 @@ exports.update = function(req, res) {
  */
 exports.delete = function(req, res) {
 	var img = req.img;
+	var uri = decodeURIComponent(img.uri);
+	var appDir = path.dirname(require.main.filename);
+
+	fs.stat(appDir+'/public/'+uri, function (err, stats) {
+		if (err) throw err;
+		console.log('stats: ' + JSON.stringify(stats));
+	});
 
 	img.remove(function(err) {
 		if (err) {
