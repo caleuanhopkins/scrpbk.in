@@ -23,6 +23,10 @@
 						<p ng-show="ScrpbkForm.content.$error.required" class="text-danger">Content is required</p>
 					</div>
 				</div>
+				<hr/>
+				<h3>Private Scrapbook</h3>
+				<label for="private">Make this scrapbook private:</label>
+				<switch id="private" name="private" ng-model="private" class="green"></switch>
 				<div class="form-group">
 					<input type="submit" value="Update" class="btn btn-default">
 				</div>

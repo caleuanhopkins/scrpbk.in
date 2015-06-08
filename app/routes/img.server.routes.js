@@ -10,14 +10,17 @@ module.exports = function(app) {
 	//console.log(app.done);
 	// Article Routes
 	app.route('/imgs')
-		.get(img.list)
+		.get(users.requiresLogin,img.list)
 		.post(users.requiresLogin, img.create);
 
 	app.route('/imgs/upload')
 		.post(users.requiresLogin, img.upload);
 
+	app.route('/imgs/urlCapture')
+		.post(users.requiresLogin, img.createUrl);
+
 	app.route('/imgs/:imgId')
-		.get(img.read)
+		.get(users.requiresLogin,img.read)
 		.put(users.requiresLogin, img.hasAuthorization, img.update)
 		.delete(users.requiresLogin, img.hasAuthorization, img.delete);
 

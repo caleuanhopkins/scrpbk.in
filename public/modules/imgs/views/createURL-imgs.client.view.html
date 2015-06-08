@@ -1,0 +1,40 @@
+<h1>create</h1>
+
+<section data-ng-controller="ImgsController">
+	<div class="page-header">
+		<h1>New Image</h1>
+	</div>
+	<div class="col-md-12">
+		<form name="imgForm" class="form-horizontal" ng-submit="grabURLImage()" novalidate>
+			<fieldset>
+				<input type="text" data-ng-model="url" />
+				<div class="form-group">
+					<button type="submit" name="submit" ng-click="grabURLImage()" onclick="return false;" class="btn btn-default">upload</button>
+				</div>
+				<div data-ng-controller="ScrpbksController" data-ng-init="find()">
+					<h3>Scrpbks</h3>
+					<div data-ng-repeat="scrpbk in scrpbks">
+						<div class="radio">
+						  <label>
+						  	<input type="radio" name="img.scrpbk_sel" data-ng-model="img.scrpbk_sel" value="{{ scrpbk._id }}">
+						    {{ scrpbk.title }}
+						  </label>
+						</div>
+					</div>
+					<hr/>
+					<h3>Tags</h3>
+					<ui-select multiple tagging tagging-label="(select this tag)" sortable="true" on-select="tagUpdate($item, img, add)" ng-model="img.tags" theme="bootstrap" ng-disabled="disabled" title="Choose a person" title="Start typing a tag (use commas to seperate tags) ...">
+						<ui-select-match placeholder="Start typing a tag (use commas to seperate tags) ...">{{$item}}</ui-select-match>
+						<ui-select-choices repeat="img in img.tags">
+							{{ img }}
+						</ui-select-choices>
+					</ui-select>
+					<hr/>
+	            </div>
+				<div data-ng-show="error" class="text-danger">
+					<strong data-ng-bind="error"></strong>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+</section>

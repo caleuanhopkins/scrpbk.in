@@ -46,6 +46,7 @@ module.exports = {
 				'public/lib/bootstrap/dist/css/bootstrap.css',
 				'public/lib/bootstrap/dist/css/bootstrap-theme.css',
 				'public/lib/angular-ui-select/dist/select.min.css',
+				'public/lib/angular-ui-switch/angular-ui-switch.min.css',
 			],
 			js: [
 				'public/lib/angular/angular.js',
@@ -55,6 +56,7 @@ module.exports = {
 				'public/lib/angular-ui-utils/ui-utils.js',
 				'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
 				'public/lib/angular-ui-select/dist/select.min.js',
+				'public/lib/angular-ui-switch/angular-ui-switch.min.js',
 			]
 		},
 		css: [

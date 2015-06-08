@@ -35,6 +35,23 @@ angular.module('imgs').controller('ImgsController', ['$scope', '$stateParams', '
 	        });
 		};
 
+		$scope.grabURLImage = function() {
+			$http({
+	            method: 'POST',
+	            url: '/imgs/urlCapture',
+	            data:{
+	            	url: $scope.url
+	            }
+	            /*data: {
+	                url: $scope.file
+	            },*/
+	            //transformRequest: formDataObject
+	        }).
+	        then(function(result) {
+	        	console.log(result);
+	        });
+		}
+
 		// Remove existing img
 		$scope.remove = function(img) {
 			if (img) {
@@ -126,5 +143,5 @@ angular.module('imgs').controller('ImgsController', ['$scope', '$stateParams', '
 ]);
 
 var toType = function(obj) {
-	return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase()
-}
+	return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase();
+};

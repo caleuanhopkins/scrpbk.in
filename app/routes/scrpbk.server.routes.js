@@ -9,11 +9,11 @@ var users = require('../../app/controllers/users.server.controller'),
 module.exports = function(app) {
 	// Article Routes
 	app.route('/scrpbks')
-		.get(scrpbk.list)
+		.get(users.requiresLogin,scrpbk.list)
 		.post(users.requiresLogin, scrpbk.create);
 
 	app.route('/scrpbks/:scrpbkId')
-		.get(scrpbk.read)
+		.get(users.requiresLogin,scrpbk.read)
 		.put(users.requiresLogin, scrpbk.hasAuthorization, scrpbk.update)
 		.delete(users.requiresLogin, scrpbk.hasAuthorization, scrpbk.delete);
 

@@ -9,6 +9,8 @@ var mongoose = require('mongoose'),
 	_ = require('lodash'),
 	fs = require('fs'),
 	path = require('path'),
+	phantom = require('phantom'),
+	chance = require('chance'),
 	User = mongoose.model('User');
 
 /**
@@ -17,7 +19,6 @@ var mongoose = require('mongoose'),
 exports.create = function(req, res) {
 	
 	var img = new Img(req.body);
-	console.log(req);
 	//img.uri = uri;
 	img.user = req.user;
 	//img.scrpbk = req.scrpbk_sel;
@@ -31,6 +32,38 @@ exports.create = function(req, res) {
 			res.json(img);
 		}
 	});
+};
+
+exports.createUrl = function(req, res) {
+	var img = new Img(req.body);
+
+	var phantom = require('phantom');
+
+	var pageUrl = req.body.url;
+
+	var ranChance = new chance();
+	var screenShotName = ranChance.string();
+
+//"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/53 "
+    //"(KHTML, like Gecko) Chrome/15.0.87"
+
+	phantom.create("--ignore-ssl-errors=yes", "--ssl-protocol=any", function (ph) {
+
+		ph.createPage(function (page) {
+			//page.set('settings.userAgent', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.71 Safari/537.36');
+			page.set('viewportSize', {width:1280,height:900}, function(){
+				page.set('clipRect', {top:0,left:0,width:1280,height:900}, function(){
+					page.open(pageUrl, function(status) {
+						page.render('./public/uploads/'+screenShotName+'.jpeg', function(finished){
+							res.json({screenPath: './public/uploads/'+screenShotName+'.jpeg'})
+							ph.exit();
+						});							
+					});
+				});
+			});
+		});
+	});
+
 };
 
 exports.upload = function(req, res){
