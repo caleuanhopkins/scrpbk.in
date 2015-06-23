@@ -19,6 +19,12 @@ module.exports = function(app) {
 	app.route('/imgs/urlCapture')
 		.post(users.requiresLogin, img.createUrl);
 
+	app.route('/imgs/urlImgsCapture')
+		.post(users.requiresLogin, img.urlGrabImages);
+
+	app.route('/imgs/downloadImage')
+		.post(users.requiresLogin, img.downloadImage);
+
 	app.route('/imgs/:imgId')
 		.get(users.requiresLogin,img.read)
 		.put(users.requiresLogin, img.hasAuthorization, img.update)

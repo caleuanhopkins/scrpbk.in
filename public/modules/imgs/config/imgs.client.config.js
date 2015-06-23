@@ -6,6 +6,6 @@ angular.module('imgs').run(['Menus',
 		// Set top bar menu items
 		Menus.addMenuItem('topbar', 'Images', 'imgs', 'dropdown', '/imgs(/create)?');
 		Menus.addSubMenuItem('topbar', 'imgs', 'Show My Images', 'imgs');
-		Menus.addSubMenuItem('topbar', 'imgs', 'New Image', 'imgs/create');
+		Menus.addSubMenuItem('topbar', 'imgs', 'New Image', 'imgs/imgType');
 	}
 ]);

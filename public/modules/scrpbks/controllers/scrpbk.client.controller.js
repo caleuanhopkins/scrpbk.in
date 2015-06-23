@@ -1,8 +1,8 @@
 'use strict';
 
 // Scrpbks controller
-angular.module('scrpbks').controller('ScrpbksController', ['$scope', '$stateParams', '$location', 'Authentication', 'Scrpbks',
-	function($scope, $stateParams, $location, Authentication, Scrpbks) {
+angular.module('scrpbks').controller('ScrpbksController', ['$scope', '$stateParams', '$location', 'Authentication', 'Scrpbks', 'Imgs',
+	function($scope, $stateParams, $location, Authentication, Scrpbks, Imgs) {
 		$scope.authentication = Authentication;
 
 		// Create new Scrpbk
@@ -50,6 +50,13 @@ angular.module('scrpbks').controller('ScrpbksController', ['$scope', '$statePara
 				$location.path('scrpbks/' + scrpbk._id);
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
+			});
+		};
+
+		$scope.findScrpbkImgs = function() {
+			//var t = Imgs.query({});
+			$scope.imgs = Imgs.query({
+				scrpbk_sel: $stateParams.scrpbkId
 			});
 		};
 

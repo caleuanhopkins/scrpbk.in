@@ -9,9 +9,17 @@ angular.module('imgs').config(['$stateProvider',
 			url: '/imgs',
 			templateUrl: 'modules/imgs/views/list-imgs.client.view.html'
 		}).
+		state('imgTypeCap', {
+			url: '/imgs/imgType',
+			controller: 'ImgChoiceController',
+		}).
 		state('urlImage', {
-			url: '/imgs/urlCapture',
+			url: '/imgs/pageCapture',
 			templateUrl: 'modules/imgs/views/createURL-imgs.client.view.html'
+		}).
+		state('urlPartImage', {
+			url: '/imgs/urlCapture',
+			templateUrl: 'modules/imgs/views/captureURL-imgs.client.view.html'
 		}).
 		state('createImg', {
 			url: '/imgs/create',

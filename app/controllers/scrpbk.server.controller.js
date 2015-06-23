@@ -6,6 +6,7 @@
 var mongoose = require('mongoose'),
 	errorHandler = require('./errors.server.controller'),
 	Scrpbk = mongoose.model('Scrpbk'),
+	Imgs = mongoose.model('Imgs'),
 	_ = require('lodash');
 
 /**
@@ -106,6 +107,18 @@ exports.scrpbkByID = function(req, res, next, id) {
 		req.scrpbk = scrpbk;
 		next();
 	});
+
+	/*Imgs.find({scprpbk_sel:'55662e3279c2885205315bf4'}).exec(function(err, imgs) {
+		if (err) return next(err);
+		if (!imgs) {
+			return res.status(404).send({
+				message: 'imgs not found'
+			});
+		}
+		req.imgs = imgs;
+		next();
+	});
+	console.log(req.imgs);*/
 };
 
 /**

@@ -1,0 +1,12 @@
+
+    <div class="modal-header">
+        <h3 class="modal-title">Choose image</h3>
+    </div>
+    <div class="modal-body">
+        <div class="clearfix">
+            <div data-ng-repeat="img in images.data">
+                <img ng-if="img.src" src="{{img.src}}" width="200"/><button ng-click="ok(img.src)" onclick="return false;" class="btn btn-primary">choose this image</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer"></div>

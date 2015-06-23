@@ -42,28 +42,91 @@ exports.createUrl = function(req, res) {
 	var pageUrl = req.body.url;
 
 	var ranChance = new chance();
-	var screenShotName = ranChance.string();
-
-//"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/53 "
-    //"(KHTML, like Gecko) Chrome/15.0.87"
+	var screenShotName = ranChance.string({pool:'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'});
 
 	phantom.create("--ignore-ssl-errors=yes", "--ssl-protocol=any", function (ph) {
-
 		ph.createPage(function (page) {
-			//page.set('settings.userAgent', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.71 Safari/537.36');
-			page.set('viewportSize', {width:1280,height:900}, function(){
-				page.set('clipRect', {top:0,left:0,width:1280,height:900}, function(){
-					page.open(pageUrl, function(status) {
-						page.render('./public/uploads/'+screenShotName+'.jpeg', function(finished){
-							res.json({screenPath: './public/uploads/'+screenShotName+'.jpeg'})
-							ph.exit();
-						});							
-					});
+			page.set('settings.userAgent', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.71 Safari/537.36');
+			page.set('viewportSize', {width: 1200, height: 1}, function(){
+				page.open(pageUrl, function(status) {
+					page.render('./public/uploads/'+screenShotName+'.jpeg', function(finished){
+						var uri = encodeURIComponent('/uploads/'+screenShotName+'.jpeg');
+						res.json(uri);
+						ph.exit();
+					});							
 				});
 			});
 		});
 	});
 
+
+	/*img.save(function(err) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		} else {
+			res.json(img);
+		}
+	});	*/
+
+};
+
+
+exports.urlGrabImages = function(req, res) {
+
+	var img = new Img(req.body);
+
+	var pageUrl = req.body.url;
+
+    var request = require('request');
+    var url = require('url');
+    var cheerio = require('cheerio');
+    var path = require('path')
+    var fs = require('fs');
+ 
+    request(pageUrl, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            var $ = cheerio.load(body)
+            var imgs = $('img').toArray()
+            var imgList = [];
+            //console.log("Downloading...")
+            imgs.forEach(function (img) {
+                //console.log(img.attribs.src)
+                process.stdout.write(".");
+                imgList.push({'src':img.attribs.src});
+                /*if (/^https?:\/\//.test(img_url)) {
+                    img_name = path.basename(img_url)
+                    request(img_url).pipe(fs.createWriteStream(img_name))
+                }*/
+            })
+            //console.log("Done!")
+            res.json(imgList);
+        }
+    })
+};
+
+exports.downloadImage = function(req, res) {
+	
+	var pageUrl = req.body.url;
+
+	var https = require('https');
+	var fs = require('fs');
+
+	var ranChance = new chance();
+	var screenShotName = ranChance.string({pool:'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'});
+
+	var file = fs.createWriteStream('./public/uploads/'+screenShotName+'.jpeg');
+	var request = https.get(pageUrl, function(response) {
+		var dlFile = response.pipe(file);
+		var uri = encodeURIComponent(file.path.replace('./public/', '/'));
+		res.json(uri);
+	});
+	request.on('error', function(err) {
+	    res.json({error:'connection refused'});
+	});
+
+	request.end();
 };
 
 exports.upload = function(req, res){
@@ -72,6 +135,7 @@ exports.upload = function(req, res){
 		res.json(uri);
 	}
 };
+
 
 /**
  * Show the current scrpbk
@@ -127,7 +191,7 @@ exports.delete = function(req, res) {
  * List of Scrpbks
  */
 exports.list = function(req, res) {
-	Img.find().sort('-created').populate('user', 'displayName').exec(function(err, img) {
+	Img.find(req.query).sort('-created').populate('user', 'displayName').exec(function(err, img) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
