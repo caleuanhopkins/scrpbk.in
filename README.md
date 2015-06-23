@@ -10,6 +10,18 @@ This project will documented and will be accessible publicly.
 
 ## Episodes
 
+#### Episode 5
+Episode 5 is now live and available for viewing at http://callumhopkins.com/168challenge-episode-5/
+
+#### BONUS
+Bonus Episode is now live and available for viewing at https://www.youtube.com/watch?v=Cw6WPo67F0I&index=5&list=PLT5UooPvJC1kuk0si2l4mjDkGid6wdETK
+
+#### Episode 4
+Episode 4 is now live and available for viewing at http://callumhopkins.com/168challenge-episode-4/
+
+#### Episode 3
+Episode 3 is now live and available for viewing at http://callumhopkins.com/168challenge-episode-3/
+
 #### Episode 2
 Episode 2 is now live and available for viewing at http://callumhopkins.com/168challenge-ep2/
 
