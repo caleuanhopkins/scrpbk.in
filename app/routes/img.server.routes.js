@@ -10,7 +10,7 @@ module.exports = function(app) {
 	//console.log(app.done);
 	// Article Routes
 	app.route('/imgs')
-		.get(users.requiresLogin,img.list)
+		.get(users.requiresLogin, img.list)
 		.post(users.requiresLogin, img.create);
 
 	app.route('/imgs/upload')

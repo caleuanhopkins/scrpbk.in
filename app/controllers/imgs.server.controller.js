@@ -5,6 +5,7 @@
  */
 var mongoose = require('mongoose'),
 	errorHandler = require('./errors.server.controller'),
+	Users = require('./users.server.controller'),
 	Img = mongoose.model('Imgs'),
 	_ = require('lodash'),
 	fs = require('fs'),
@@ -51,8 +52,8 @@ exports.createUrl = function(req, res) {
 				page.open(pageUrl, function(status) {
 					page.render('./public/uploads/'+screenShotName+'.jpeg', function(finished){
 						var uri = encodeURIComponent('/uploads/'+screenShotName+'.jpeg');
-						res.json(uri);
 						ph.exit();
+						res.json(uri);
 					});							
 				});
 			});
@@ -191,6 +192,7 @@ exports.delete = function(req, res) {
  * List of Scrpbks
  */
 exports.list = function(req, res) {
+	delete req.query.private;
 	Img.find(req.query).sort('-created').populate('user', 'displayName').exec(function(err, img) {
 		if (err) {
 			return res.status(400).send({

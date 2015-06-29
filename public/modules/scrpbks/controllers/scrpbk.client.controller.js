@@ -55,8 +55,18 @@ angular.module('scrpbks').controller('ScrpbksController', ['$scope', '$statePara
 
 		$scope.findScrpbkImgs = function() {
 			//var t = Imgs.query({});
-			$scope.imgs = Imgs.query({
-				scrpbk_sel: $stateParams.scrpbkId
+			$scope.scrpbk.$promise.then(function(data){
+			    var privateParam = data.private;
+				if(privateParam === true){
+					$scope.imgs = Imgs.query({
+						scrpbk_sel: $stateParams.scrpbkId,
+						private: true
+					});
+				}else{
+					$scope.imgs = Imgs.query({
+						scrpbk_sel: $stateParams.scrpbkId
+					});			
+				}
 			});
 		};
 
@@ -71,7 +81,17 @@ angular.module('scrpbks').controller('ScrpbksController', ['$scope', '$statePara
 		$scope.findOne = function() {
 			$scope.scrpbk = Scrpbks.get({
 				scrpbkId: $stateParams.scrpbkId,
-				user: $scope.authentication.user._id
+				//user: $scope.authentication.user._id
+			});
+			$scope.scrpbk.$promise.then(function(data){
+			    var privateParam = data.private;
+				if(privateParam === true && typeof $scope.authentication.user._id == 'undefined'){
+					$scope.scrpbk = '';
+				}else if(privateParam === true && $scope.authentication.user._id != data.user._id){
+					$scope.scrpbk = '';
+				}else{
+					return true;
+				}
 			});
 		};
 	}

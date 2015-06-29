@@ -13,7 +13,7 @@ module.exports = function(app) {
 		.post(users.requiresLogin, scrpbk.create);
 
 	app.route('/scrpbks/:scrpbkId')
-		.get(users.requiresLogin,scrpbk.read)
+		.get(scrpbk.read)
 		.put(users.requiresLogin, scrpbk.hasAuthorization, scrpbk.update)
 		.delete(users.requiresLogin, scrpbk.hasAuthorization, scrpbk.delete);
 

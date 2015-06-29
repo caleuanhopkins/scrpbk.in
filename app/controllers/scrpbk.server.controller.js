@@ -7,6 +7,7 @@ var mongoose = require('mongoose'),
 	errorHandler = require('./errors.server.controller'),
 	Scrpbk = mongoose.model('Scrpbk'),
 	Imgs = mongoose.model('Imgs'),
+	Users = require('./users.server.controller'),
 	_ = require('lodash');
 
 /**
@@ -74,7 +75,6 @@ exports.delete = function(req, res) {
  * List of Scrpbks
  */
 exports.list = function(req, res) {
-	console.log('hello world');
 	Scrpbk.find().sort('-created').populate('user', 'displayName').exec(function(err, scrpbks) {
 		if (err) {
 			return res.status(400).send({
@@ -120,6 +120,25 @@ exports.scrpbkByID = function(req, res, next, id) {
 	});
 	console.log(req.imgs);*/
 };
+
+exports.checkState = function(req, res, next, id) {
+	if (!mongoose.Types.ObjectId.isValid(id)) {
+		return res.redirect('/#!/signin');
+	}
+
+	Scrpbk.findById(id).exec(function(err, scrpbk) {
+		if (err) return next(err);
+		if (!scrpbk) {
+			return res.redirect('/#!/signin');
+		}
+		if(scrpbk.private == false || typeof req.user != 'undefined' && req.scrpbk.user.id == req.user.id){
+			req.scrpbk = scrpbk;
+			next();
+		}else{
+			return res.redirect('/#!/signin');
+		}
+	});
+}
 
 /**
  * Scrpbk authorization middleware

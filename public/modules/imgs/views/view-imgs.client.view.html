@@ -11,6 +11,12 @@
 	</div>
 	<hr/>
 
+	<div data-ng-if="img.orig_url">
+		<h3>Original URL</h3>
+		<a ng-href="{{img.orig_url}}">{{img.orig_url}}</a>
+	</div>
+	<hr/>
+
 	<div class="pull-right" data-ng-show="authentication.user._id == img.user._id">
 		<a class="btn btn-primary" href="/#!/imgs/{{img._id}}/edit">
 			<i class="glyphicon glyphicon-edit"></i>

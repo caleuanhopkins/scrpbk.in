@@ -66,7 +66,8 @@ angular.module('imgs').controller('ImgsController', ['$scope', '$stateParams', '
 			        	var img = new Imgs({
 							scrpbk_sel: $scope.img.scrpbk_sel,
 							tags: $scope.img.tags,
-							uri: JSON.parse(result.data)
+							uri: JSON.parse(result.data),
+							orig_url: $scope.url
 						});
 			        	img.$save(function(response) {
 							$location.path('imgs/' + response._id);
@@ -99,7 +100,8 @@ angular.module('imgs').controller('ImgsController', ['$scope', '$stateParams', '
 	        	var img = new Imgs({
 					scrpbk_sel: $scope.img.scrpbk_sel,
 					tags: $scope.img.tags,
-					uri: JSON.parse(result.data)
+					uri: JSON.parse(result.data),
+					orig_url: $scope.url
 				});
 	        	img.$save(function(response) {
 					$location.path('imgs/' + response._id);
