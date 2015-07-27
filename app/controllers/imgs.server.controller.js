@@ -14,6 +14,8 @@ var mongoose = require('mongoose'),
 	chance = require('chance'),
 	User = mongoose.model('User');
 
+	mongoose.set('debug', true);
+
 /**
  * Create a scrpbk
  */
@@ -193,7 +195,20 @@ exports.delete = function(req, res) {
  */
 exports.list = function(req, res) {
 	delete req.query.private;
-	Img.find(req.query).sort('-created').populate('user', 'displayName').exec(function(err, img) {
+	if(req.query.sort){
+		var sort = req.query.sort;
+		delete req.query.sort;
+	}else{
+		var sort = -1;
+	}
+	if(req.query.limit){
+		var limit = req.query.limit;
+		delete req.query.limit;
+	}else{
+		var limit = 0;
+	}
+	console.log(req.query);
+	Img.find(req.query).sort({created: sort}).limit(limit).populate('user', 'displayName').exec(function(err, img) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)

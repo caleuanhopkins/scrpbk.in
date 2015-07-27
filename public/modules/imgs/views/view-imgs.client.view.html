@@ -3,7 +3,13 @@
 		<h1 data-ng-bind="img.title"></h1>
 	</div>
 
-	<img class="lead" data-ng-src="{{img.uri}}" />
+	<div class="row">
+
+		<figure class="col-xs-12">
+			<img class="lead img-responsive" data-ng-src="{{img.uri}}" />
+		</figure>
+
+	</div>
 
 	<h3>Tags</h3>
 	<div data-ng-repeat="tag in img.tags">

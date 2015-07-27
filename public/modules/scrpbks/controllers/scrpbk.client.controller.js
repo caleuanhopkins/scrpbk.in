@@ -4,6 +4,7 @@
 angular.module('scrpbks').controller('ScrpbksController', ['$scope', '$stateParams', '$location', 'Authentication', 'Scrpbks', 'Imgs',
 	function($scope, $stateParams, $location, Authentication, Scrpbks, Imgs) {
 		$scope.authentication = Authentication;
+		$scope.imgs = {}
 
 		// Create new Scrpbk
 		$scope.create = function() {
@@ -65,6 +66,27 @@ angular.module('scrpbks').controller('ScrpbksController', ['$scope', '$statePara
 				}else{
 					$scope.imgs = Imgs.query({
 						scrpbk_sel: $stateParams.scrpbkId
+					});			
+				}
+			});
+		};
+
+		$scope.findPrevImgs = function(id) {
+			//var t = Imgs.query({});
+			$scope.scrpbks.$promise.then(function(data){
+			    var privateParam = data.private;
+				if(privateParam === true){
+					$scope.imgs[id] = Imgs.query({
+						scrpbk_sel: id,
+						sort: -1,
+						limit: 1,
+						private: true
+					});
+				}else{
+					$scope.imgs[id] = Imgs.query({
+						scrpbk_sel: id,
+						sort: -1,
+						limit: 1
 					});			
 				}
 			});

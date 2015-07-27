@@ -2,18 +2,34 @@
 	<div class="page-header">
 		<h1>Images</h1>
 	</div>
-	<div class="list-group">
-		<a data-ng-repeat="img in imgs" data-ng-href="#!/imgs/{{img._id}}" class="list-group-item">
-			<img data-ng-src="/{{ img.uri }}" />
-			<small class="list-group-item-text">
-				Posted on
-				<span data-ng-bind="img.created | date:'mediumDate'"></span>
-				by
-				<span data-ng-bind="img.user.displayName"></span>
-			</small>
-			<h4 class="list-group-item-heading" data-ng-bind="img.path"></h4>
-			<p class="list-group-item-text" data-ng-bind="img.uri"></p>
-		</a>
+	<hr/>
+	<div class="row">
+	  	<div data-ng-repeat="img in imgs" class="col-sm-6 col-md-4">
+	    	<div class="thumbnail">
+	    		<a data-ng-href="/#!/imgs/{{img._id}}">
+					<figure>
+						<img class="img-responsive" data-ng-src="{{img.uri}}" />
+					</figure>
+				</a>
+	      		<div class="caption">
+					<h4 class="list-group-item-heading" data-ng-bind="img.orig_url"></h4>
+					<small class="list-group-item-text">
+						Posted on
+						<span data-ng-bind="img.created | date:'mediumDate'"></span>
+						by
+						<span data-ng-bind="img.user.displayName"></span>
+					</small>
+					<p>
+						<a class="btn btn-warning" role="button" href="/#!/imgs/{{img._id}}/edit">
+							<i class="glyphicon glyphicon-edit"></i>&nbsp;edit
+						</a>
+						<a class="btn btn-danger" role="button" data-ng-click="remove();">
+							<i class="glyphicon glyphicon-trash"></i>&nbsp;delete
+						</a>
+					</p>
+	      		</div>
+	    	</div>
+	  	</div>
 	</div>
 	<div class="alert alert-warning text-center" data-ng-if="imgs.$resolved && !imgs.length">
 		No images yet, why don't you <a href="/#!/imgs/create">upload one</a>?

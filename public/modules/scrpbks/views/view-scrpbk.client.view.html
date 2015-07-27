@@ -2,32 +2,35 @@
 	<div class="page-header">
 		<h1 data-ng-bind="scrpbk.title"></h1>
 	</div>
-	<div class="pull-right"> <!-- data-ng-show="authentication.user._id == scrpbk.user._id" -->
-		<a class="btn btn-primary" href="/#!/scrpbks/{{scrpbk._id}}/edit">
-			<i class="glyphicon glyphicon-edit"></i>
-		</a>
-		<a class="btn btn-primary" data-ng-click="remove();">
-			<i class="glyphicon glyphicon-trash"></i>
-		</a>
-	</div>
-	<div data-ng-init="findScrpbkImgs()">
-		<ul data-ng-repeat="img in imgs">
-			<li>
-				<a data-ng-href="/#!/imgs/{{img._id}}">
+	<p class="lead" data-ng-bind="scrpbk.content"></p>
+	<small class="list-group-item-text">
+		Posted on
+		<span data-ng-bind="scrpbk.created | date:'mediumDate'"></span>
+		by
+		<span data-ng-bind="scrpbk.user.displayName"></span>
+	</small>
+	<hr/>
+	<div class="row" data-ng-init="findScrpbkImgs()">
+	  	<div data-ng-repeat="img in imgs" class="col-sm-6 col-md-4">
+	    	<div class="thumbnail">
+	    		<a data-ng-href="/#!/imgs/{{img._id}}">
 					<figure>
-						<img data-ng-src="{{img.uri}}" />
+						<img class="img-responsive" data-ng-src="{{img.uri}}" />
 					</figure>
 				</a>
-			</li>
-		</ul>
+	      		<div class="caption">
+	      			<h4 class="list-group-item-heading" data-ng-bind="img.orig_url"></h4>
+					<p>
+						<a class="btn btn-warning" role="button" href="/#!/scrpbks/{{scrpbk._id}}/edit">
+							<i class="glyphicon glyphicon-edit"></i>&nbsp;edit
+						</a>
+						<a class="btn btn-danger" role="button" data-ng-click="remove();">
+							<i class="glyphicon glyphicon-trash"></i>&nbsp;delete
+						</a>
+					</p>
+	      		</div>
+	    	</div>
+	  	</div>
 	</div>
-	<small>
-		<em class="text-muted">
-			Posted on
-			<span data-ng-bind="scrpbk.created | date:'mediumDate'"></span>
-			by
-			<span data-ng-bind="scrpbk.user.displayName"></span>
-		</em>
-	</small>
-	<p class="lead" data-ng-bind="scrpbk.content"></p>
+
 </section>
